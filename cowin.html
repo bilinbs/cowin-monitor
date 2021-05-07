@@ -8,9 +8,20 @@
 
     <!-- Don't use this in production: -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/javascript">
+        function getDate() {
+            function pad(s) { return (s < 10) ? '0' + s : s; }
+            var d = new Date()
+            var dateVal =  [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('-');
+            var elem=document.getElementById("date"); 
+            elem.value = dateVal;
+        }
+        
+        
+    </script>
   </head>
-  <body>
-     <input id="date" value="03-05-2021"/>
+  <body onload='getDate()'>
+     <input type="text" id="date" />
     <div id="root">
        
     </div>
@@ -67,8 +78,10 @@
       )
   }
 
-  raiseAlert(available, ageLimit, centerName){
+  raiseAlert(available, centerName){
+    
     if(available > 0 ){
+        console.log(new Date(), centerName, available);
 		var mp3_url = 'https://freesound.org/data/previews/80/80921_1022651-lq.mp3';
 		var sound = new Audio(mp3_url);
 		sound.play()
@@ -100,7 +113,7 @@
 			  {centers.map(item => (
 				<li key={item.center_id}>
 				   {item.name} : {item.sessions.map( session => ( 
-                        <p> Date : {session.date} Available capacity : {session.available_capacity} {this.raiseAlert(session.available_capacity)}</p> 
+                        <p> Date : {session.date} Available capacity : {session.available_capacity} {this.raiseAlert(session.available_capacity, item.name)}</p> 
                         ) ) }
 				</li>
 			  ))}
@@ -113,18 +126,6 @@
 ReactDOM.render(React.createElement(MyComponent, null), document.getElementById('root'));
 
     </script>
-    <!--
-      Note: this page is a great way to try React but it's not suitable for production.
-      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
-
-      Read this section for a production-ready setup with JSX:
-      https://reactjs.org/docs/add-react-to-a-website.html#add-jsx-to-a-project
-
-      In a larger project, you can use an integrated toolchain that includes JSX instead:
-      https://reactjs.org/docs/create-a-new-react-app.html
-
-      You can also use React without JSX, in which case you can remove Babel:
-      https://reactjs.org/docs/react-without-jsx.html
     -->
   </body>
 </html>
